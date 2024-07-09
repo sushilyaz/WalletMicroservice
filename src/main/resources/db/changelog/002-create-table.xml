@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.10.xsd">
+
+    <changeSet id="1" author="suhoi">
+        <createTable schemaName="wallet_schema" tableName="wallets">
+            <column name="vallet_id" type="UUID" remarks="wallet id">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+<!--            <column name="operation_type" type="VARCHAR(50)" remarks="DEPOSIT OR WITHDRAW">-->
+<!--                <constraints nullable="false"/>-->
+<!--            </column>-->
+            <column name="amount" type="DECIMAL(19,2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="TIMESTAMP" remarks="CREATE DATE"/>
+            <column name="version" type="BIGINT" defaultValue="0">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

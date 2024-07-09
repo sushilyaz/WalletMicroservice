@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="003-init-table" author="suhoi">
+        <insert tableName="wallets" schemaName="wallet_schema">
+            <column name="vallet_id" value="2b483cdb-31df-4cf9-b2b4-23fc1a40b3a4"/>
+            <column name="amount" value="10000"/>
+            <column name="created_at" value="2023-07-08T14:55:29.000Z"/>
+            <column name="version" value="0"/>
+        </insert>
+
+        <insert tableName="wallets" schemaName="wallet_schema">
+            <column name="vallet_id" value="0474c7cf-6481-4e1e-8e20-43946975d1b4"/>
+            <column name="amount" value="20000"/>
+            <column name="created_at" value="2024-05-08T14:55:29.000Z"/>
+            <column name="version" value="0"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>
