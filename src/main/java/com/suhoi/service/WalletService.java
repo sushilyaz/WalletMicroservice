@@ -6,5 +6,5 @@ import java.util.UUID;
 
 public interface WalletService {
     WalletDto getWallet(UUID walletUid);
-    WalletDto updateWallet(WalletDto walletDto);
+    void updateWallet(WalletDto walletDto);
 }

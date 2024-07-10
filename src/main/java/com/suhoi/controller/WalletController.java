@@ -16,9 +16,9 @@ public class WalletController {
     private final WalletService walletService;
 
     @PostMapping("/wallet")
-    public ResponseEntity<WalletDto> updateWallet(@RequestBody WalletDto walletDto) {
-        WalletDto res = walletService.updateWallet(walletDto);
-        return ResponseEntity.ok(res);
+    public ResponseEntity<Void> updateWallet(@RequestBody WalletDto walletDto) {
+        walletService.updateWallet(walletDto);
+        return ResponseEntity.status(200).build();
     }
 
     @GetMapping("/wallets/{id}")

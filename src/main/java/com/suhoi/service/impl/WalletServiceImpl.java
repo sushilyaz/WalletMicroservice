@@ -11,8 +11,10 @@ import com.suhoi.service.WalletService;
 import jakarta.persistence.OptimisticLockException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -31,11 +33,10 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Transactional
-    @Override
-    public WalletDto updateWallet(WalletDto walletDto) {
-        while (true) {
+    public void updateWallet(WalletDto walletDto) {
+        boolean updated = false;
+        while (!updated) {
             try {
-
                 Wallet wallet = walletRepository.findWalletByValletId(walletDto.getValletId())
                         .orElseThrow(() -> new WalletNotFoundException("Wallet not found exception"));
 
@@ -43,19 +44,18 @@ public class WalletServiceImpl implements WalletService {
                     throw new InsufficientFundsException("Insufficient funds");
                 }
 
-                if (walletDto.getOperationType() == OperationType.DEPOSIT) {
-                    wallet.setAmount(wallet.getAmount().add(walletDto.getAmount()));
-                } else {
-                    wallet.setAmount(wallet.getAmount().subtract(walletDto.getAmount()));
+                BigDecimal newAmount = walletDto.getOperationType() == OperationType.DEPOSIT ?
+                        wallet.getAmount().add(walletDto.getAmount()) :
+                        wallet.getAmount().subtract(walletDto.getAmount());
+
+                int rowsAffected = walletRepository.updateWallet(wallet.getValletId(), newAmount, wallet.getVersion());
+
+                if (rowsAffected == 1) {
+                    updated = true;
                 }
-                walletRepository.save(wallet);
-                WalletDto dto = walletMapper.toDto(wallet);
-                dto.setOperationType(walletDto.getOperationType());
-                return dto;
-            } catch (OptimisticLockException e) {
-                // если произошел конфликт версий, повторяем операцию
+            } catch (DataAccessException e) {
+                // Log and retry on DataAccessException
             }
         }
     }
-
 }

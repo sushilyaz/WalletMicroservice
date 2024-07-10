@@ -35,6 +35,3 @@ public class Wallet {
     @Version
     private Long version;
 }
-//    @Enumerated(EnumType.STRING)
-//    @Column(name = "operation_type")
-//    private OperationType operationType;
